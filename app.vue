@@ -3,6 +3,7 @@
     <NuxtWelcome />
   </div> -->
   <!-- <NuxtLayout> -->
+  <VitePwaManifest />
   <NuxtPage />
   <!-- </NuxtLayout> -->
 </template>

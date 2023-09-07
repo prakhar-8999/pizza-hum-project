@@ -10,5 +10,19 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  css: ["@/assets/css/main.css"],
+  css: ["~/assets/css/main.css"],
+  modules: ["@vite-pwa/nuxt"],
+  pwa: {
+    manifest: {
+      name: "PIZZA-HUM",
+      short_name: "PIZZA-HUM",
+      description: "PWA ENABLED",
+    },
+    workbox: {
+      navigateFallback: "/",
+    },
+    devOptions: {
+      enabled: true,
+    },
+  },
 });
