@@ -12,11 +12,13 @@ export default defineNuxtConfig({
   },
   css: ["~/assets/css/main.css"],
   modules: ["@vite-pwa/nuxt"],
+  // modules: ["@nuxtjs/pwa"],
   pwa: {
     manifest: {
       name: "PIZZA-HUM",
       short_name: "PIZZA-HUM",
       description: "PWA ENABLED",
+      display: "standalone",
     },
     workbox: {
       navigateFallback: "/",

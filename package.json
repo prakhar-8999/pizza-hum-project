@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.7.1",
+    "@nuxtjs/pwa": "^3.3.5",
     "vue-tsc": "^1.8.10"
   }
 }
