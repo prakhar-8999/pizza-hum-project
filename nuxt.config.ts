@@ -33,6 +33,7 @@ export default defineNuxtConfig({
     },
     workbox: {
       navigateFallback: "/",
+      cleanupOutdatedCaches: true,
     },
     devOptions: {
       enabled: true,

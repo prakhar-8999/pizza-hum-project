@@ -11,9 +11,9 @@
   ],
   "overrides": [
     {
-      "files": ["pages/**/*.vue"],
+      "files": ["pages/**/*.vue", "components/**/*.vue", "layouts/**/*.vue"],
       "rules": {
-        "vue/multi-word-component-names": "off"
+        "vue/multi-word-component-names": 0
       }
     }
   ],
