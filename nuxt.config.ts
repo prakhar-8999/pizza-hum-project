@@ -19,6 +19,8 @@ export default defineNuxtConfig({
       short_name: "PIZZA-HUM",
       description: "PWA ENABLED",
       display: "standalone",
+      id: "/",
+      start_url: "/",
     },
     workbox: {
       navigateFallback: "/",
