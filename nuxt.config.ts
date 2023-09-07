@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
 export default defineNuxtConfig({
   devtools: {enabled: true},
   typescript: {
@@ -12,22 +13,30 @@ export default defineNuxtConfig({
   },
   css: ["~/assets/css/main.css"],
   modules: ["@vite-pwa/nuxt"],
-  // modules: ["@nuxtjs/pwa"],
   pwa: {
     manifest: {
       name: "PIZZA-HUM",
-      short_name: "PIZZA-HUM",
-      description: "PWA ENABLED",
-      display: "standalone",
-      id: "/",
-      start_url: "/",
+      short_name: "PIZZA-HUM PWA",
+      description: "PWA APPLICATION",
+      icons: [
+        {
+          src: "logo.jpg",
+          type: "image/png",
+          sizes: "192x192",
+        },
+        {
+          src: "logo.jpg",
+          type: "image/png",
+          sizes: "512x512",
+        },
+      ],
     },
     workbox: {
       navigateFallback: "/",
-      globPatterns: ["*/*.*", "*.*"],
     },
     devOptions: {
       enabled: true,
+      type: "module",
     },
   },
 });
