@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true,
   },
-  modules: ["@nuxtjs/tailwindcss", "@vite-pwa/nuxt"],
+  modules: ["@nuxtjs/tailwindcss", "@vite-pwa/nuxt", "@vueuse/motion/nuxt"],
   tailwindcss: {
     config: {
       content: [
