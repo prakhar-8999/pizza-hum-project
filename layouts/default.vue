@@ -1,7 +1,7 @@
 <template>
   <Header />
-  <div className="default-container overflow-auto">
-    <main className="mx-auto flex max-w-3xl flex-col justify-center p-10">
+  <div class="default-container overflow-auto">
+    <main class="mx-auto flex max-w-3xl flex-col justify-center p-10">
       <slot />
     </main>
   </div>
