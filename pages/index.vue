@@ -50,5 +50,13 @@
         </div>
       </div>
     </form>
+    <NuxtLink to="/menu">
+      <button
+        type="button"
+        class="mt-16 w-full inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-3 md:px-6 md:py-4"
+      >
+        Go to menu
+      </button>
+    </NuxtLink>
   </div>
 </template>
