@@ -5,14 +5,37 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true,
   },
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
+  modules: ["@nuxtjs/tailwindcss", "@vite-pwa/nuxt"],
+  tailwindcss: {
+    config: {
+      content: [
+        "components/**/*.{vue,js,ts}",
+        "layouts/**/*.vue",
+        "pages/**/*.vue",
+        "composables/**/*.{js,ts}",
+        "plugins/**/*.{js,ts}",
+        "App.{js,ts,vue}",
+        "app.{js,ts,vue}",
+        "Error.{js,ts,vue}",
+        "error.{js,ts,vue}",
+        "content/**/*.md",
+      ],
+      theme: {
+        fontFamily: {
+          sans: "Roboto Mono, monospace",
+        },
+
+        extend: {
+          fontSize: {
+            huge: ["80rem", {lineHeight: "1"}],
+          },
+          height: {
+            screen: "100dvh",
+          },
+        },
+      },
     },
   },
-  css: ["~/assets/css/main.css"],
-  modules: ["@vite-pwa/nuxt"],
   pwa: {
     manifest: {
       name: "PIZZA-HUM",
