@@ -5,6 +5,12 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true,
   },
+  runtimeConfig: {
+    public: {
+      baseURL:
+        "https://cf6f-2401-4900-1f34-5f89-ea66-3cab-9b00-1b1b.ngrok-free.app/",
+    },
+  },
   modules: ["@nuxtjs/tailwindcss", "@vite-pwa/nuxt", "@vueuse/motion/nuxt"],
   tailwindcss: {
     config: {

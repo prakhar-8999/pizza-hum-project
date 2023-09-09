@@ -11,7 +11,12 @@
   ],
   "overrides": [
     {
-      "files": ["pages/**/*.vue", "components/**/*.vue", "layouts/**/*.vue"],
+      "files": [
+        "pages/**/*.vue",
+        "components/**/*.vue",
+        "layouts/**/*.vue",
+        "app.{js,ts,vue}"
+      ],
       "rules": {
         "vue/multi-word-component-names": 0,
         "no-undef": "off"
