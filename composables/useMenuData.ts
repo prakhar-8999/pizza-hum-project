@@ -1,5 +1,5 @@
 const useUserData = () => {
-  const menuData = useState("user", () => [
+  const menuData = useState("usermenu", () => [
     {
       id: 1,
       imageUrl:
@@ -46,8 +46,8 @@ const useUserData = () => {
     },
   ]);
 
-  const setMenuData = (user: never[]) => {
-    menuData.value = user;
+  const setMenuData = (data: never[]) => {
+    menuData.value = data;
   };
   return {
     menuData,

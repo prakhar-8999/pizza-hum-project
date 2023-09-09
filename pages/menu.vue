@@ -1,8 +1,8 @@
-<script setup lang="ts">
+<script setup>
 // const counter = useState("counter", () => 0);
 const {menuData, setMenuData} = useMenuData();
 
-const addToCart = (id: number) => {
+const addToCart = (id) => {
   const index = menuData.value.findIndex((each) => each.id === id);
   menuData.value[index].quantity = 1;
   console.log(JSON.parse(JSON.stringify(menuData.value)));
@@ -10,21 +10,21 @@ const addToCart = (id: number) => {
   setMenuData(data);
 };
 
-const deleteFromCart = (id: number) => {
+const deleteFromCart = (id) => {
   const index = menuData.value.findIndex((each) => each.id === id);
   menuData.value[index].quantity = 0;
   const data = JSON.parse(JSON.stringify(menuData.value));
   setMenuData(data);
 };
 
-const incrementCart = (id: number) => {
+const incrementCart = (id) => {
   const index = menuData.value.findIndex((each) => each.id === id);
   menuData.value[index].quantity = menuData.value[index].quantity + 1;
   const data = JSON.parse(JSON.stringify(menuData.value));
   setMenuData(data);
 };
 
-const decrementCart = (id: number) => {
+const decrementCart = (id) => {
   const index = menuData.value.findIndex((each) => each.id === id);
   menuData.value[index].quantity = menuData.value[index].quantity - 1;
   const data = JSON.parse(JSON.stringify(menuData.value));
