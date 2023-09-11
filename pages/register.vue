@@ -1,21 +1,25 @@
 <script setup>
+const {setLoading} = useLoading();
 const register = async (event) => {
   event.preventDefault();
+  setLoading(true);
   const forms = document.forms;
   const form = forms.register;
   const formData = {
     name: form.name.value,
-    email: form.email.value,
+    username: form.username.value,
     contact_number: form.phoneNumber.value,
     password: form.password.value,
   };
   console.log(formData);
-  const {data} = await useAPIFetch("user_register/", {
+  const {data, status} = await useAPIFetch("user_register/", {
     method: "POST",
     body: formData,
   });
-
-  console.log(data.value);
+  setLoading(false);
+  if (data.value && status.value === "success") {
+    form.reset();
+  }
 };
 </script>
 
@@ -55,7 +59,7 @@ const register = async (event) => {
       <input
         type="email"
         placeholder="Email"
-        name="email"
+        name="username"
         required
         class="sm:w-96 w-full rounded-full border border-stone-200 px-4 py-2 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-yellow-400 md:px-6 md:py-3 mb-8"
       />
