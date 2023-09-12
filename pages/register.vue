@@ -1,7 +1,7 @@
 <script setup>
 const {setLoading} = useLoading();
 const {setUserData} = useUserData();
-const {setCart} = useUserCart();
+const {cart, setCart} = useUserCart();
 const {setLogin} = useLoginStatus();
 const router = useRouter();
 
