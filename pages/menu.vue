@@ -1,6 +1,8 @@
 <script setup>
 const {menuData, setMenuData} = useMenuData();
 const {cart} = useUserCart();
+const {setLogin} = useLoginStatus();
+const {setUserData} = useUserData();
 const {islogin} = useLoginStatus();
 console.log(JSON.parse(JSON.stringify(menuData.value)));
 console.log(JSON.parse(JSON.stringify(cart.value)));
@@ -20,6 +22,18 @@ const getMenu = async () => {
   setLoading(false);
 };
 getMenu();
+
+const checkLogin = async () => {
+  setLoading(true);
+  const {data, status} = await useAPIFetch("login/");
+  if (data.value && status.value === "success") {
+    setUserData(data.value);
+    setLogin(true);
+    router.push("/menu");
+  }
+  setLoading(false);
+};
+checkLogin();
 
 const getCart = async () => {
   setLoading(true);
