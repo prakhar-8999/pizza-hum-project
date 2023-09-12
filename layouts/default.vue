@@ -15,9 +15,9 @@ const {cart} = useUserCart();
         : 'default-container'
     "
   >
-    <main class="mx-auto flex max-w-3xl flex-col justify-center p-10">
+    <div class="mx-auto flex max-w-3xl flex-col justify-center p-10">
       <slot />
-    </main>
+    </div>
   </div>
   <div v-if="cart.length && showCart">
     <CartView />

@@ -8,6 +8,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       baseURL: "https://85.31.238.178:8888/",
+      // baseURL: "https://58ac-2a09-bac5-3b59-18f0-00-27c-4f.ngrok-free.app/",
     },
   },
   modules: ["@nuxtjs/tailwindcss", "@vite-pwa/nuxt", "@vueuse/motion/nuxt"],

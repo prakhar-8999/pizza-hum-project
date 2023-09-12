@@ -3,6 +3,8 @@ import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/vue";
 const {setLoading} = useLoading();
 const {userData} = useUserData();
 const {setUserData} = useUserData();
+const {setCart} = useUserCart();
+const {setLogin} = useLoginStatus();
 const router = useRouter();
 
 const logout = async () => {
@@ -12,6 +14,8 @@ const logout = async () => {
   if (status.value === "success") {
     console.log("fsdf");
     setUserData({});
+    setCart([]);
+    setLogin(false);
     router.push("/");
   }
 };
@@ -49,7 +53,7 @@ const logout = async () => {
                 <button
                   @click="logout"
                   :class="[
-                    active ? 'bg-violet-500 text-white' : 'text-gray-900',
+                    active ? 'bg-yellow-400 text-white' : 'text-gray-900',
                     'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                   ]"
                 >

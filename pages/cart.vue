@@ -1,6 +1,18 @@
 <script setup>
+// const isOpen = useState("isOpen", () => false);
+
+import {
+  Dialog,
+  DialogPanel,
+  TransitionChild,
+  TransitionRoot,
+} from "@headlessui/vue";
+
 const {cart, setCart} = useUserCart();
+const {islogin} = useLoginStatus();
 const {setLoading} = useLoading();
+const router = useRouter();
+const {isOpen, closeModal} = useModal();
 
 const getCart = async () => {
   setLoading(true);
@@ -14,6 +26,11 @@ const getCart = async () => {
 getCart();
 
 const deleteFromCart = async (id) => {
+  if (!islogin.value) {
+    const cartFilter = cart.value.filter((each) => each.cart_id !== id);
+    setCart(cartFilter);
+    return;
+  }
   console.log(id);
   setLoading(true);
   const {data, status} = await useAPIFetch(`cart_operation/${id}`, {
@@ -27,6 +44,13 @@ const deleteFromCart = async (id) => {
 };
 
 const incrementCart = async (id) => {
+  if (!islogin.value) {
+    const index = cart.value.findIndex((each) => each.cart_id === id);
+    const array = cart.value;
+    array[index].quantity = array[index].quantity + 1;
+    setCart(array);
+    return;
+  }
   console.log(id);
   setLoading(true);
   const index = cart.value.findIndex((each) => each.cart_id === id);
@@ -45,6 +69,18 @@ const incrementCart = async (id) => {
 };
 
 const decrementCart = async (id) => {
+  if (!islogin.value) {
+    const index = cart.value.findIndex((each) => each.cart_id === id);
+    const quantity = cart.value[index].quantity - 1;
+    if (quantity === 0) {
+      deleteFromCart(id);
+      return;
+    }
+    const array = cart.value;
+    array[index].quantity = quantity;
+    setCart(array);
+    return;
+  }
   console.log(id);
   setLoading(true);
   const index = cart.value.findIndex((each) => each.cart_id === id);
@@ -72,6 +108,16 @@ const clearCart = async () => {
     getCart();
   }
   setLoading(false);
+};
+
+// const closeModal = () => (isOpen.value = false);
+
+const orderPizza = () => {
+  if (!islogin.value) {
+    isOpen.value = true;
+    return;
+  }
+  router.push("order");
 };
 </script>
 <template>
@@ -144,14 +190,13 @@ const clearCart = async () => {
       </ul>
 
       <div className="mt-6 space-x-2">
-        <NuxtLink to="order">
-          <button
-            type="button"
-            class="px-4 py-3 md:px-6 md:py-4 inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed"
-          >
-            Order pizzas
-          </button>
-        </NuxtLink>
+        <button
+          type="button"
+          @click="orderPizza"
+          class="px-4 py-3 md:px-6 md:py-4 inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed"
+        >
+          Order pizzas
+        </button>
 
         <button
           type="button"
@@ -165,5 +210,57 @@ const clearCart = async () => {
     <div v-else class="flex justify-center mt-10">
       <h1 class="text-xl">No items in cart!</h1>
     </div>
+  </div>
+
+  <div v-if="isOpen">
+    <TransitionRoot appear :show="isOpen" as="template">
+      <Dialog as="div" @close="closeModal" class="relative z-10">
+        <TransitionChild
+          as="template"
+          enter="duration-300 ease-out"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="duration-200 ease-in"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div class="fixed inset-0 bg-black bg-opacity-25" />
+        </TransitionChild>
+
+        <div class="fixed inset-0 overflow-y-auto">
+          <div
+            class="flex min-h-full items-center justify-center p-4 text-center"
+          >
+            <TransitionChild
+              as="template"
+              enter="duration-300 ease-out"
+              enter-from="opacity-0 scale-95"
+              enter-to="opacity-100 scale-100"
+              leave="duration-200 ease-in"
+              leave-from="opacity-100 scale-100"
+              leave-to="opacity-0 scale-95"
+            >
+              <DialogPanel
+                class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+              >
+                <div class="mt-2">
+                  <Login />
+                </div>
+
+                <!-- <div class="mt-4">
+                <button
+                  type="button"
+                  class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  @click="closeModal"
+                >
+                  Got it, thanks!
+                </button>
+              </div> -->
+              </DialogPanel>
+            </TransitionChild>
+          </div>
+        </div>
+      </Dialog>
+    </TransitionRoot>
   </div>
 </template>

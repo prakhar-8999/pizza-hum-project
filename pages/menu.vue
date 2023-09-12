@@ -1,6 +1,7 @@
 <script setup>
 const {menuData, setMenuData} = useMenuData();
 const {cart} = useUserCart();
+const {islogin} = useLoginStatus();
 console.log(JSON.parse(JSON.stringify(menuData.value)));
 console.log(JSON.parse(JSON.stringify(cart.value)));
 const {setCart} = useUserCart();
@@ -32,6 +33,21 @@ const getCart = async () => {
 getCart();
 
 const addToCart = async (id) => {
+  if (!islogin.value) {
+    const menuItem = menuData.value
+      .filter((each) => each.id === id)
+      .map((each) => ({
+        ...each,
+        item_id: each.id,
+        cart_id: cart.value.length,
+        quantity: 1,
+        unit_price: each.unitPrice,
+      }));
+    console.log(JSON.parse(JSON.stringify([...cart.value, ...menuItem])));
+    setCart(JSON.parse(JSON.stringify([...cart.value, ...menuItem])));
+    return;
+  }
+
   setLoading(true);
   console.log(id);
   const {data, status} = await useAPIFetch("cart/", {
@@ -49,6 +65,11 @@ const addToCart = async (id) => {
 };
 
 const deleteFromCart = async (id) => {
+  if (!islogin.value) {
+    const cartFilter = cart.value.filter((each) => each.cart_id !== id);
+    setCart(cartFilter);
+    return;
+  }
   console.log(id);
   setLoading(true);
   const {data, status} = await useAPIFetch(`cart_operation/${id}`, {
@@ -62,6 +83,13 @@ const deleteFromCart = async (id) => {
 };
 
 const incrementCart = async (id) => {
+  if (!islogin.value) {
+    const index = cart.value.findIndex((each) => each.cart_id === id);
+    const array = cart.value;
+    array[index].quantity = array[index].quantity + 1;
+    setCart(array);
+    return;
+  }
   console.log(id);
   setLoading(true);
   const index = cart.value.findIndex((each) => each.cart_id === id);
@@ -80,6 +108,18 @@ const incrementCart = async (id) => {
 };
 
 const decrementCart = async (id) => {
+  if (!islogin.value) {
+    const index = cart.value.findIndex((each) => each.cart_id === id);
+    const quantity = cart.value[index].quantity - 1;
+    if (quantity === 0) {
+      deleteFromCart(id);
+      return;
+    }
+    const array = cart.value;
+    array[index].quantity = quantity;
+    setCart(array);
+    return;
+  }
   console.log(id);
   setLoading(true);
   const index = cart.value.findIndex((each) => each.cart_id === id);

@@ -2,7 +2,7 @@
 const {setMenuData} = useMenuData();
 const {data} = await useAPIFetch("menu_item/");
 if (data.value) {
-  setMenuData(data.value.map((each) => ({...each, quantity: 0})));
+  setMenuData(data.value);
 }
 </script>
 

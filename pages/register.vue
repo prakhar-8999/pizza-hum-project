@@ -1,5 +1,36 @@
 <script setup>
 const {setLoading} = useLoading();
+const {setUserData} = useUserData();
+const {setCart} = useUserCart();
+const router = useRouter();
+
+const getCart = async () => {
+  setLoading(true);
+  const {data, status} = await useAPIFetch("cart/");
+  if (data.value && status.value === "success") {
+    console.log(JSON.parse(JSON.stringify(data.value)));
+    setCart(JSON.parse(JSON.stringify(data.value)));
+  }
+  setLoading(false);
+};
+
+const updateCart = async () => {
+  setLoading(true);
+  const cartData = cart.value.map((each) => ({
+    item_id: each.item_id,
+    quantity: each.quantity,
+  }));
+  const {data, status} = await useAPIFetch("cart_add/", {
+    method: "POST",
+    body: cartData,
+  });
+  if (data.value && status.value === "success") {
+    console.log(JSON.parse(JSON.stringify(data.value)));
+    getCart();
+  }
+  setLoading(false);
+};
+
 const register = async (event) => {
   event.preventDefault();
   setLoading(true);
@@ -19,6 +50,22 @@ const register = async (event) => {
   setLoading(false);
   if (data.value && status.value === "success") {
     form.reset();
+    const loginData = {
+      username: form.username.value,
+      password: form.password.value,
+    };
+    console.log(formData);
+    const {data, status} = await useAPIFetch("login/", {
+      method: "POST",
+      body: loginData,
+    });
+    setLoading(false);
+    if (data.value && status.value === "success") {
+      setUserData(data.value);
+      setLogin(true);
+      updateCart();
+      router.push("menu");
+    }
   }
 };
 </script>
@@ -91,6 +138,13 @@ const register = async (event) => {
         >
           Register
         </button>
+      </div>
+      <div class="flex justify-center mt-8">
+        <NuxtLink
+          to="/login"
+          class="text-yellow-400 underline hover:text-yellow-500"
+          >Already have a account!</NuxtLink
+        >
       </div>
     </form>
   </div>
