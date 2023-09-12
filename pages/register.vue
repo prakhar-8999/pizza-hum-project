@@ -49,7 +49,6 @@ const register = async (event) => {
   });
   setLoading(false);
   if (data.value && status.value === "success") {
-    form.reset();
     const loginData = {
       username: form.username.value,
       password: form.password.value,
@@ -67,6 +66,7 @@ const register = async (event) => {
       router.push("menu");
     }
   }
+  form.reset();
 };
 </script>
 
