@@ -3,6 +3,7 @@ const {setLoading} = useLoading();
 const {setUserData} = useUserData();
 const {cart, setCart} = useUserCart();
 const {setLogin} = useLoginStatus();
+const {closeModal} = useModal();
 const router = useRouter();
 
 const getCart = async () => {
@@ -49,6 +50,7 @@ const register = async (event) => {
     body: formData,
   });
   setLoading(false);
+  closeModal();
   if (data.value && status.value === "success") {
     const loginData = {
       username: form.username.value,
@@ -61,6 +63,7 @@ const register = async (event) => {
     });
     setLoading(false);
     if (data.value && status.value === "success") {
+      closeModal();
       setUserData(data.value);
       setLogin(true);
       updateCart();
