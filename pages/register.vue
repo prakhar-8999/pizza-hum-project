@@ -2,6 +2,7 @@
 const {setLoading} = useLoading();
 const {setUserData} = useUserData();
 const {setCart} = useUserCart();
+const {setLogin} = useLoginStatus();
 const router = useRouter();
 
 const getCart = async () => {
