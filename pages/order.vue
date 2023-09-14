@@ -89,7 +89,7 @@ const generateSessionID = async (event) => {
         <div class="grow">
           <input
             class="rounded-full border border-stone-200 px-4 py-2 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-yellow-400 px-6 py-3 w-full"
-            type="tel"
+            type="number"
             v-model="billingData.phone"
             name="phone"
             required
@@ -97,7 +97,7 @@ const generateSessionID = async (event) => {
         </div>
       </div>
       <div class="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
-        <label class="sm:basis-40">Phone number</label>
+        <label class="sm:basis-40">Email</label>
         <div class="grow">
           <input
             class="rounded-full border border-stone-200 px-4 py-2 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-yellow-400 px-6 py-3 w-full"
