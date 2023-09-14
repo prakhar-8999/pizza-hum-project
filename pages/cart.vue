@@ -1,18 +1,10 @@
 <script setup>
 // const isOpen = useState("isOpen", () => false);
 
-import {
-  Dialog,
-  DialogPanel,
-  TransitionChild,
-  TransitionRoot,
-} from "@headlessui/vue";
-
 const {cart, setCart} = useUserCart();
 const {islogin} = useLoginStatus();
 const {setLoading} = useLoading();
-const router = useRouter();
-const {isOpen, closeModal} = useModal();
+// const {isOpen, closeModal} = useModal();
 
 const getCart = async () => {
   setLoading(true);
@@ -112,13 +104,9 @@ const clearCart = async () => {
 
 // const closeModal = () => (isOpen.value = false);
 
-const orderPizza = () => {
-  if (!islogin.value) {
-    isOpen.value = true;
-    return;
-  }
-  router.push("order");
-};
+// const orderPizza = () => {
+//   router.push("order");
+// };
 </script>
 <template>
   <div
@@ -190,14 +178,14 @@ const orderPizza = () => {
       </ul>
 
       <div className="mt-6 space-x-2">
-        <button
-          type="button"
-          @click="orderPizza"
-          class="px-4 py-3 md:px-6 md:py-4 inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed"
-        >
-          Order pizzas
-        </button>
-
+        <NuxtLink to="/order">
+          <button
+            type="button"
+            class="px-4 py-3 md:px-6 md:py-4 inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed"
+          >
+            Order pizzas
+          </button>
+        </NuxtLink>
         <button
           type="button"
           @click="clearCart"
@@ -208,11 +196,13 @@ const orderPizza = () => {
       </div>
     </div>
     <div v-else class="flex justify-center mt-10">
-      <h1 class="text-xl">No items in cart!</h1>
+      <h1 class="py-4 font-semibold">
+        Your cart is still empty. Start adding some pizzas :)
+      </h1>
     </div>
   </div>
 
-  <div v-if="isOpen">
+  <!-- <div v-if="isOpen">
     <TransitionRoot appear :show="isOpen" as="template">
       <Dialog as="div" @close="closeModal" class="relative z-10">
         <TransitionChild
@@ -247,20 +237,11 @@ const orderPizza = () => {
                   <Login />
                 </div>
 
-                <!-- <div class="mt-4">
-                <button
-                  type="button"
-                  class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                  @click="closeModal"
-                >
-                  Got it, thanks!
-                </button>
-              </div> -->
               </DialogPanel>
             </TransitionChild>
           </div>
         </div>
       </Dialog>
-    </TransitionRoot>
-  </div>
+    </TransitionRoot> 
+  </div> -->
 </template>
