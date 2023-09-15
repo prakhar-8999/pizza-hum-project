@@ -45,9 +45,13 @@ const generateSessionID = async (event) => {
           product_data: {name: each.item_name},
           unit_amount: Number(each.unit_price) * 100,
         },
+        item_id: each.item_id,
         quantity: each.quantity,
       })),
       email: billing.email,
+      phone: billing.phone,
+      name: billing.name,
+      address: billing.address,
     },
   });
   if (data.value && status.value === "success") {

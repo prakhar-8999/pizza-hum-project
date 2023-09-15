@@ -20,6 +20,12 @@ getPaymentDetails();
     }"
     class="rounded-2xl bg-stone-100 px-10 px-4 py-5 py-6 shadow-lg"
   >
-    <h1 class="text-center">Payment Successfull</h1>
+    <div class="flex justify-center">
+      <img src="/success.png" alt="success" />
+    </div>
+    <h1 class="text-center font-semibold text-xl my-16">
+      Payment Successfull !
+    </h1>
+    <p class="text-center">Your order will be delivered soon !</p>
   </div>
 </template>
