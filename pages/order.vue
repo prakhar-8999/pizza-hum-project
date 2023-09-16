@@ -1,6 +1,7 @@
 <script setup>
 const {cart} = useUserCart();
 const {setLoading} = useLoading();
+const {userData} = useUserData();
 const sessionId = useState("sessionid", () => "");
 const checkoutGenerated = useState("checkoutgenerated", () => false);
 
@@ -47,7 +48,7 @@ const generateSessionID = async (event) => {
         },
         quantity: each.quantity,
       })),
-      email: billing.email,
+      email: userData.value.email,
       phone: billing.phone,
       name: billing.name,
       address: billing.address,
@@ -74,7 +75,10 @@ const generateSessionID = async (event) => {
     }"
     class="rounded-2xl bg-stone-100 px-10 px-4 py-5 py-6 shadow-lg"
   >
-    <NuxtLink to="/menu" class="text-blue-500 hover:text-blue-700"
+    <NuxtLink
+      v-if="!checkoutGenerated"
+      to="/menu"
+      class="text-blue-500 hover:text-blue-700"
       >&larr; Back to menu</NuxtLink
     >
     <h2 class="my-8 text-xl font-semibold">Ready to order? Let's go!</h2>
@@ -85,7 +89,7 @@ const generateSessionID = async (event) => {
         <input
           class="rounded-full border border-stone-200 px-4 py-2 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-yellow-400 px-6 py-3 grow"
           type="text"
-          v-model="billingData.name"
+          v-model="userData.tempuser"
           name="name"
           required
         />
@@ -110,7 +114,7 @@ const generateSessionID = async (event) => {
             class="rounded-full border border-stone-200 px-4 py-2 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-yellow-400 px-6 py-3 w-full"
             type="email"
             name="email"
-            v-model="billingData.email"
+            v-model="userData.email"
             required
           />
         </div>
@@ -206,7 +210,7 @@ const generateSessionID = async (event) => {
     </button>
   </div>
 
-  <div>
+  <div v-if="checkoutGenerated">
     <stripe-checkout
       ref="checkoutRef"
       :pk="publishableKey"

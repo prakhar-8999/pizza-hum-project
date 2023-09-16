@@ -2,7 +2,7 @@
 const {menuData, setMenuData} = useMenuData();
 const {cart} = useUserCart();
 const {setLogin} = useLoginStatus();
-const {setUserData} = useUserData();
+const {userData, setUserData} = useUserData();
 const {islogin} = useLoginStatus();
 console.log(JSON.parse(JSON.stringify(menuData.value)));
 console.log(JSON.parse(JSON.stringify(cart.value)));
@@ -27,7 +27,7 @@ const checkLogin = async () => {
   setLoading(true);
   const {data, status} = await useAPIFetch("login/");
   if (data.value && status.value === "success") {
-    setUserData(data.value);
+    setUserData({...userData, ...data.value});
     setLogin(true);
     router.push("/menu");
   }
@@ -359,13 +359,23 @@ const decrementCart = async (id) => {
         </div>
       </li>
     </div>
-    <NuxtLink to="/">
+
+    <div class="flex justify-between">
+      <NuxtLink to="/">
+        <button
+          type="button"
+          class="sm:w-40 mt-16 inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-3 md:px-6 md:py-4"
+        >
+          Go Back
+        </button>
+      </NuxtLink>
       <button
         type="button"
+        @click="getMenu"
         class="sm:w-40 mt-16 inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-3 md:px-6 md:py-4"
       >
-        Go Back
+        refresh
       </button>
-    </NuxtLink>
+    </div>
   </ul>
 </template>

@@ -1,17 +1,16 @@
 <script setup>
-const name = useState("name", () => "");
+// const name = useState("name", () => "");
 
-console.log(name.value);
 const router = useRouter();
 const {setLoading} = useLoading();
 const {setLogin} = useLoginStatus();
-const {setUserData} = useUserData();
+const {userData, setUserData} = useUserData();
 
 const checkLogin = async () => {
   setLoading(true);
   const {data, status} = await useAPIFetch("login/");
   if (data.value && status.value === "success") {
-    setUserData(data.value);
+    setUserData({...userData, ...data.value});
     setLogin(true);
     router.push("/menu");
   }
@@ -19,13 +18,13 @@ const checkLogin = async () => {
 };
 checkLogin();
 
-const changeName = (event) => {
-  const {value} = event.target;
-  name.value = value;
-};
+// const changeName = (event) => {
+//   const {value} = event.target;
+//   name.value = value;
+// };
 
 const startOrdering = () => {
-  name.value = "";
+  // name.value = "";
   router.push("menu");
 };
 </script>
@@ -59,11 +58,21 @@ const startOrdering = () => {
         type="text"
         name="name"
         placeholder="Your full name"
-        v-on:input="changeName"
+        v-model="userData.tempuser"
         class="sm:w-96 w-full mt-8 rounded-full border border-stone-200 px-4 py-2 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-yellow-400 md:px-6 md:py-3 mb-8"
       />
-      <div v-if="name !== ''">
+      <div v-if="userData.tempuser !== ''">
         <button
+          v-motion="{
+            initial: {
+              y: 100,
+              opacity: 0,
+            },
+            enter: {
+              y: 0,
+              opacity: 1,
+            },
+          }"
           type="button"
           @click="startOrdering"
           class="sm:w-96 w-full mb-8 inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-3 md:px-6 md:py-4"
@@ -106,6 +115,14 @@ const startOrdering = () => {
         class="mt-16 w-full inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-3 md:px-6 md:py-4"
       >
         Go to Cart
+      </button>
+    </NuxtLink> -->
+    <!-- <NuxtLink to="/reports">
+      <button
+        type="button"
+        class="mt-16 w-full inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-3 md:px-6 md:py-4"
+      >
+        Go to Reports
       </button>
     </NuxtLink> -->
   </div>

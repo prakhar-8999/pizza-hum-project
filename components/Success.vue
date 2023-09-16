@@ -1,12 +1,19 @@
 <script setup>
+const router = useRouter();
+
 const getPaymentDetails = async () => {
-  const {data, status} = await useAPIFetch("saveOrder/", {
-    method: "POST",
-    body: {session: localStorage.getItem("paymentSession")},
-  });
-  if (data.value && status.value === "success") {
-    console.log(JSON.parse(JSON.stringify(data.value)));
+  if (localStorage.getItem("paymentSession")) {
+    const {data, status} = await useAPIFetch("saveOrder/", {
+      method: "POST",
+      body: {session: localStorage.getItem("paymentSession")},
+    });
+    if (data.value && status.value === "success") {
+      console.log(JSON.parse(JSON.stringify(data.value)));
+    }
+    localStorage.clear();
+    return;
   }
+  router.push({path: "/"});
 };
 getPaymentDetails();
 </script>

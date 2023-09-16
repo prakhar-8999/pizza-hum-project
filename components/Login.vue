@@ -1,7 +1,7 @@
 <script setup>
 const router = useRouter();
 const {setLoading} = useLoading();
-const {setUserData} = useUserData();
+const {userData, setUserData} = useUserData();
 const {islogin, setLogin} = useLoginStatus();
 const {cart, setCart} = useUserCart();
 const {closeModal} = useModal();
@@ -10,7 +10,7 @@ const checkLogin = async () => {
   setLoading(true);
   const {data, status} = await useAPIFetch("login/");
   if (data.value && status.value === "success") {
-    setUserData(data.value);
+    setUserData({...userData, ...data.value});
     setLogin(true);
     router.push("/menu");
   }
@@ -79,7 +79,7 @@ const login = async (event) => {
     if (!islogin.value) {
       updateCart();
     }
-    setUserData(data.value);
+    setUserData({...userData, ...data.value});
     setLogin(true);
     router.push("menu");
   }
