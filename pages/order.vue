@@ -43,7 +43,7 @@ const generateSessionID = async (event) => {
         price_data: {
           currency: "INR",
           product_data: {name: each.item_name},
-          unit_amount: Number(each.unit_price) * 100,
+          unit_amount: Number(each.unit_price).toFixed(2) * 100,
         },
         quantity: each.quantity,
       })),
@@ -51,7 +51,10 @@ const generateSessionID = async (event) => {
       phone: billing.phone,
       name: billing.name,
       address: billing.address,
-      products: cart.value.map(each => ({item_id: each.item_id, quantity: each.quantity}))
+      products: cart.value.map((each) => ({
+        item_id: each.item_id,
+        quantity: each.quantity,
+      })),
     },
   });
   if (data.value && status.value === "success") {
