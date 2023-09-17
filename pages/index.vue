@@ -10,7 +10,7 @@ const checkLogin = async () => {
   setLoading(true);
   const {data, status} = await useAPIFetch("login/");
   if (data.value && status.value === "success") {
-    setUserData({...userData, ...data.value});
+    setUserData({...userData.value, ...data.value});
     setLogin(true);
     router.push("/menu");
   }

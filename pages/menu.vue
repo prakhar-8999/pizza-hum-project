@@ -27,9 +27,10 @@ const checkLogin = async () => {
   setLoading(true);
   const {data, status} = await useAPIFetch("login/");
   if (data.value && status.value === "success") {
-    setUserData({...userData, ...data.value});
+    setUserData({...userData.value, ...data.value});
+    console.log(userData.value);
+    console.log(JSON.parse(JSON.stringify(userData.value)));
     setLogin(true);
-    router.push("/menu");
   }
   setLoading(false);
 };
@@ -57,7 +58,6 @@ const addToCart = async (id) => {
         quantity: 1,
         unit_price: each.unitPrice,
       }));
-    console.log(JSON.parse(JSON.stringify([...cart.value, ...menuItem])));
     setCart(JSON.parse(JSON.stringify([...cart.value, ...menuItem])));
     return;
   }

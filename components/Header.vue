@@ -12,8 +12,7 @@ const logout = async () => {
   const {status} = await useAPIFetch("logout/");
   setLoading(false);
   if (status.value === "success") {
-    console.log("fsdf");
-    setUserData({});
+    setUserData({tempuser: ""});
     setCart([]);
     setLogin(false);
     router.push("/");
