@@ -23,8 +23,9 @@ checkLogin();
 //   name.value = value;
 // };
 
-const startOrdering = () => {
+const startOrdering = (event) => {
   // name.value = "";
+  event.preventDefault();
   router.push("menu");
 };
 </script>
@@ -49,7 +50,7 @@ const startOrdering = () => {
         Straight out of the oven, straight to you.
       </span>
     </h1>
-    <form>
+    <form name="startOrdering" @submit="startOrdering">
       <p class="mb-4 text-sm text-stone-600 md:text-base">
         👋 Welcome! Please start by telling us your name:
       </p>
@@ -73,8 +74,7 @@ const startOrdering = () => {
               opacity: 1,
             },
           }"
-          type="button"
-          @click="startOrdering"
+          type="submit"
           class="sm:w-96 w-full mb-8 inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-3 md:px-6 md:py-4"
         >
           Start Ordering
