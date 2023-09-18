@@ -69,7 +69,7 @@ const login = async (event) => {
     password: form.password.value,
   };
   console.log(formData);
-  const {data, status} = await useAPIFetch("login/", {
+  const {data, status, error} = await useAPIFetch("login/", {
     method: "POST",
     body: formData,
   });
@@ -82,6 +82,9 @@ const login = async (event) => {
     setUserData({...userData.value, ...data.value, tempuser: data.value.name});
     setLogin(true);
     router.push("menu");
+  }
+  if (status.value === "error") {
+    alert(error.value.data.msg);
   }
 };
 </script>

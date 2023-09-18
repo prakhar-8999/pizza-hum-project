@@ -1,6 +1,7 @@
 <script setup>
 const {cart} = useUserCart();
 const {setLoading} = useLoading();
+const {islogin} = useLoginStatus();
 const {userData} = useUserData();
 const sessionId = useState("sessionid", () => "");
 const checkoutGenerated = useState("checkoutgenerated", () => false);
@@ -36,14 +37,14 @@ const generateSessionID = async (event) => {
   event.preventDefault();
   setLoading(true);
   const billing = billingData.value;
-  const {data, status} = await useAPIFetch("checkout/", {
+  const {data, status, error} = await useAPIFetch("checkout/", {
     method: "POST",
     body: {
       items: cart.value.map((each) => ({
         price_data: {
           currency: "INR",
           product_data: {name: each.item_name},
-          unit_amount: Number(each.unit_price).toFixed(2) * 100,
+          unit_amount: Number(parseFloat(each.unit_price) * 100).toFixed(0),
         },
         quantity: each.quantity,
       })),
@@ -61,6 +62,9 @@ const generateSessionID = async (event) => {
     sessionId.value = data.value.data.id ?? "";
     localStorage.setItem("paymentSession", data.value.data.id);
     checkoutGenerated.value = true;
+  }
+  if (status.value === "error") {
+    alert(error.value.data.msg);
   }
   setLoading(false);
 };
@@ -106,7 +110,10 @@ const generateSessionID = async (event) => {
           />
         </div>
       </div>
-      <div class="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
+      <div
+        class="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center"
+        v-if="!islogin"
+      >
         <label class="sm:basis-40">Email</label>
         <div class="grow">
           <input
