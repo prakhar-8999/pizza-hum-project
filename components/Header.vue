@@ -18,6 +18,8 @@ const logout = async () => {
     router.push("/");
   }
 };
+
+const viewTransactions = () => router.push("transactions");
 </script>
 <template>
   <header
@@ -50,7 +52,7 @@ const logout = async () => {
             <div class="px-1 py-1">
               <MenuItem v-slot="{active}">
                 <button
-                  @click="router.push('reports')"
+                  @click="viewTransactions"
                   :class="[
                     active ? 'bg-yellow-400 text-white' : 'text-gray-900',
                     'group flex w-full items-center rounded-md px-2 py-2 text-sm',
