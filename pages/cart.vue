@@ -91,6 +91,10 @@ const decrementCart = async (id) => {
 };
 
 const clearCart = async () => {
+  if (!islogin.value) {
+    setCart([]);
+    return;
+  }
   setLoading(true);
   const {data, status} = await useAPIFetch("cart/", {
     method: "DELETE",
