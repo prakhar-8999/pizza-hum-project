@@ -15,7 +15,10 @@ const {cart} = useUserCart();
         : 'default-container'
     "
   >
-    <div class="mx-auto flex max-w-3xl flex-col justify-center p-10">
+    <div
+      class="mx-auto flex flex-col justify-center p-10"
+      :class="cartWidth ? 'max-w-5xl' : 'max-w-3xl'"
+    >
       <slot />
     </div>
   </div>
@@ -45,12 +48,14 @@ export default {
       handler(to) {
         if (to.name === "menu") this.showCart = true;
         else this.showCart = false;
+        if (to.name === "transactions") this.cartWidth = true;
+        else this.cartWidth = false;
       },
       immediate: true,
     },
   },
   data() {
-    return {showCart: false};
+    return {showCart: false, cartWidth: false};
   },
 };
 </script>

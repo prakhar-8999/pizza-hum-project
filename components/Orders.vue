@@ -6,7 +6,6 @@ const sessionId = useState("sessionid", () => "");
 const checkoutGenerated = useState("checkoutgenerated", () => false);
 
 const billingData = useState("address", () => ({
-  name: "",
   phone: "",
   address: "",
   email: "",
@@ -50,7 +49,7 @@ const generateSessionID = async (event) => {
       })),
       email: userData.value.email,
       phone: billing.phone,
-      name: billing.name,
+      name: userData.value.tempuser,
       address: billing.address,
       products: cart.value.map((each) => ({
         item_id: each.item_id,

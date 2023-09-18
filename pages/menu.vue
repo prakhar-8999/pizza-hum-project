@@ -27,7 +27,7 @@ const checkLogin = async () => {
   setLoading(true);
   const {data, status} = await useAPIFetch("login/");
   if (data.value && status.value === "success") {
-    setUserData({...userData.value, ...data.value});
+    setUserData({...userData.value, ...data.value, tempuser: data.value.name});
     console.log(userData.value);
     console.log(JSON.parse(JSON.stringify(userData.value)));
     setLogin(true);

@@ -50,6 +50,17 @@ const logout = async () => {
             <div class="px-1 py-1">
               <MenuItem v-slot="{active}">
                 <button
+                  @click="router.push('reports')"
+                  :class="[
+                    active ? 'bg-yellow-400 text-white' : 'text-gray-900',
+                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                  ]"
+                >
+                  View Transactions
+                </button>
+              </MenuItem>
+              <MenuItem v-slot="{active}">
+                <button
                   @click="logout"
                   :class="[
                     active ? 'bg-yellow-400 text-white' : 'text-gray-900',
@@ -64,26 +75,5 @@ const logout = async () => {
         </transition>
       </Menu>
     </div>
-    <!-- <Menu v-if="userData.name !== undefined">
-      <MenuButton>{{ userData.name }}</MenuButton>
-      <MenuItems>
-        <MenuItem v-slot="{active}">
-          <a :class="{'bg-blue-500': active}" href="/account-settings">
-            Account settings
-          </a>
-        </MenuItem>
-        <MenuItem v-slot="{active}">
-          <a :class="{'bg-blue-500': active}" href="/account-settings">
-            Documentation
-          </a>
-        </MenuItem>
-        <MenuItem disabled>
-          <span class="opacity-75">Invite a friend (coming soon!)</span>
-        </MenuItem>
-      </MenuItems>
-    </Menu> -->
-    <!-- <div v-if="userData.name !== undefined" class="hidden sm:block">
-      
-    </div> -->
   </header>
 </template>
