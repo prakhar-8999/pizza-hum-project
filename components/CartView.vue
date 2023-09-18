@@ -31,6 +31,7 @@ const {cart} = useUserCart();
           cart
             .map((each) => ({price: each.unit_price, quantity: each.quantity}))
             .reduce((a, b) => a + b.price * b.quantity, 0)
+            .toFixed(2)
         }}</span
       >
     </p>

@@ -28,7 +28,7 @@ const viewTransactions = () => router.push("transactions");
     <NuxtLink to="/" class="tracking-widest"> Pizza Hum </NuxtLink>
     <Search />
 
-    <div v-if="userData.name !== undefined">
+    <div v-if="userData.name !== undefined" class="z-50">
       <Menu as="div" class="relative inline-block text-left">
         <div>
           <MenuButton
