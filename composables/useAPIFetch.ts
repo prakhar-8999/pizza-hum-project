@@ -11,8 +11,6 @@ const useAPIFetch: useFetchType = (path, options = {}) => {
   return useFetch(path, {
     ...options,
     credentials: "include",
-    server: false,
-    lazy: true,
   });
 };
 
