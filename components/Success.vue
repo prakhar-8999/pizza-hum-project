@@ -17,6 +17,9 @@ const getPaymentDetails = async () => {
     localStorage.clear();
     sessionStorage.clear();
     setUserData({tempuser: ""});
+    setTimeout(() => {
+      router.push("/menu");
+    }, 5000);
     return;
   }
   router.push({path: "/"});
@@ -33,6 +36,9 @@ getPaymentDetails();
     }"
     class="rounded-2xl bg-stone-100 px-10 px-4 py-5 py-6 shadow-lg"
   >
+    <NuxtLink to="/menu" class="text-blue-500 hover:text-blue-700"
+      >&larr; Back to menu</NuxtLink
+    >
     <div class="flex justify-center">
       <img src="/success.png" alt="success" />
     </div>
@@ -40,6 +46,9 @@ getPaymentDetails();
       Payment Successfull !
     </h1>
     <p class="mb-6 text-center">Your Order I'd : {{ orderData.order_id }}</p>
-    <p class="text-center">Your order will be delivered soon !</p>
+    <p class="text-center mb-6">Your order will be delivered soon !</p>
+    <p class="text-center">
+      Please don't press back, you will be redirected within 5 seconds.
+    </p>
   </div>
 </template>
