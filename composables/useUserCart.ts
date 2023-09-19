@@ -1,28 +1,19 @@
 const useUserCart = () => {
+  const cart = useState("cart", () =>
+    process.client ? JSON.parse(sessionStorage.getItem("cart") ?? "[]") : []
+  );
+
+  const setCart = (data: never[]) => {
+    cart.value = data;
+    if (process.client) sessionStorage.setItem("cart", JSON.stringify(data));
+  };
   if (process.client) {
-    const cart = useState("cart", () =>
-      JSON.parse(sessionStorage.getItem("cart") ?? "[]")
-    );
-
-    const setCart = (data: never[]) => {
-      cart.value = data;
-      sessionStorage.setItem("cart", JSON.stringify(data));
-    };
-    return {
-      cart,
-      setCart,
-    };
-  } else {
-    const cart = useState("cart", () => []);
-
-    const setCart = (data: never[]) => {
-      cart.value = data;
-    };
-    return {
-      cart,
-      setCart,
-    };
+    setCart(JSON.parse(sessionStorage.getItem("cart") ?? "[]"));
   }
+  return {
+    cart,
+    setCart,
+  };
 };
 export default useUserCart;
 
