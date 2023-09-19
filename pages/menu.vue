@@ -10,10 +10,7 @@ const {setCart} = useUserCart();
 const {setLoading} = useLoading();
 const getMenu = async () => {
   setLoading(true);
-  const {data, status} = await useAPIFetch("menu_item/", {
-    server: false,
-    lazy: true,
-  });
+  const {data, status} = await useAPIFetch("menu_item/");
   if (data.value && status.value === "success") {
     setMenuData(
       JSON.parse(JSON.stringify(data.value)).map((each) => ({

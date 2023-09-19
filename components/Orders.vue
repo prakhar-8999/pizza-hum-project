@@ -10,6 +10,7 @@ const billingData = useState("address", () => ({
   phone: "",
   address: "",
   email: "",
+  priority: false,
 }));
 
 const getCurrentPostion = () => {
@@ -35,19 +36,41 @@ const showPosition = async (position) => {
 
 const generateSessionID = async (event) => {
   event.preventDefault();
-  setLoading(true);
+  // setLoading(true);
   const billing = billingData.value;
+  console.log(JSON.parse(JSON.stringify(billing)));
   const {data, status, error} = await useAPIFetch("checkout/", {
     method: "POST",
     body: {
-      items: cart.value.map((each) => ({
-        price_data: {
-          currency: "INR",
-          product_data: {name: each.item_name},
-          unit_amount: Number(parseFloat(each.unit_price) * 100).toFixed(0),
-        },
-        quantity: each.quantity,
-      })),
+      items: billing.priority
+        ? [
+            ...cart.value.map((each) => ({
+              price_data: {
+                currency: "INR",
+                product_data: {name: each.item_name},
+                unit_amount: Number(parseFloat(each.unit_price) * 100).toFixed(
+                  0
+                ),
+              },
+              quantity: each.quantity,
+            })),
+            {
+              price_data: {
+                currency: "INR",
+                product_data: {name: "Express-Delivery"},
+                unit_amount: 5000,
+              },
+              quantity: 1,
+            },
+          ]
+        : cart.value.map((each) => ({
+            price_data: {
+              currency: "INR",
+              product_data: {name: each.item_name},
+              unit_amount: Number(parseFloat(each.unit_price) * 100).toFixed(0),
+            },
+            quantity: each.quantity,
+          })),
       email: userData.value.email,
       phone: billing.phone,
       name: userData.value.tempuser,
@@ -56,6 +79,7 @@ const generateSessionID = async (event) => {
         item_id: each.item_id,
         quantity: each.quantity,
       })),
+      priority: billing.priority,
     },
   });
   if (data.value && status.value === "success") {
@@ -66,7 +90,7 @@ const generateSessionID = async (event) => {
   if (status.value === "error") {
     alert(error.value.data.msg);
   }
-  setLoading(false);
+  // setLoading(false);
 };
 </script>
 <template>
@@ -158,6 +182,7 @@ const generateSessionID = async (event) => {
           class="h-6 w-6 accent-yellow-400 focus:outline-none focus:ring focus:ring-yellow-400 focus:ring-offset-2"
           type="checkbox"
           name="priority"
+          v-model="billingData.priority"
           id="priority"
         />
         <label htmlFor="priority" class="font-medium">
