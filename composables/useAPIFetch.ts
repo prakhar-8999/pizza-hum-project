@@ -8,7 +8,12 @@ const useAPIFetch: useFetchType = (path, options = {}) => {
 
   // modify options as needed
   options.baseURL = config.public.baseURL;
-  return useFetch(path, {...options, credentials: "include"});
+  return useFetch(path, {
+    ...options,
+    credentials: "include",
+    server: false,
+    lazy: true,
+  });
 };
 
 export default useAPIFetch;

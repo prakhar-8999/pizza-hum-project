@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true,
   },
+  // ssr: false,
   runtimeConfig: {
     public: {
       baseURL: "https://85.31.238.178:8888/",
