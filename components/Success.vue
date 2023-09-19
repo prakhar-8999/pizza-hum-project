@@ -1,5 +1,8 @@
 <script setup>
 const router = useRouter();
+const {setUserData} = useUserData();
+
+const orderData = useState("orderData", () => ({order_id: ""}));
 
 const getPaymentDetails = async () => {
   if (localStorage.getItem("paymentSession")) {
@@ -9,8 +12,11 @@ const getPaymentDetails = async () => {
     });
     if (data.value && status.value === "success") {
       console.log(JSON.parse(JSON.stringify(data.value)));
+      orderData.value = data.value.data;
     }
     localStorage.clear();
+    sessionStorage.clear();
+    setUserData({tempuser: ""});
     return;
   }
   router.push({path: "/"});
@@ -33,6 +39,7 @@ getPaymentDetails();
     <h1 class="text-center font-semibold text-xl my-16">
       Payment Successfull !
     </h1>
+    <p class="mb-6 text-center">Your Order I'd : {{ orderData.order_id }}</p>
     <p class="text-center">Your order will be delivered soon !</p>
   </div>
 </template>

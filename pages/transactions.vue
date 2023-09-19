@@ -7,6 +7,7 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 const {setLoading} = useLoading();
+const {extraCharge} = useExtraCharge();
 const report = useState("report", () => []);
 const order_details = useState("orderdetails", () => []);
 const isOpen = useState("isOpen", () => false);
@@ -59,6 +60,7 @@ const findOrderDetails = (id) => {
             <th scope="col" class="px-6 py-3">Name</th>
             <th scope="col" class="px-6 py-3">Order Status</th>
             <th scope="col" class="px-6 py-3">Total Amount</th>
+            <th scope="col" class="px-6 py-3">Priority Charge</th>
             <th scope="col" class="px-6 py-3">products</th>
           </tr>
         </thead>
@@ -76,7 +78,23 @@ const findOrderDetails = (id) => {
             </th>
             <td class="px-6 py-4">{{ data.client_name }}</td>
             <td class="px-6 py-4">{{ data.order_status }}</td>
-            <td class="px-6 py-4">{{ data.total_amount }}</td>
+            <td class="px-6 py-4">
+              {{
+                new Intl.NumberFormat("en", {
+                  style: "currency",
+                  currency: "EUR",
+                }).format(data.total_amount / 100)
+              }}
+            </td>
+            <td class="px-6 py-4" v-if="data.is_priority">
+              {{
+                new Intl.NumberFormat("en", {
+                  style: "currency",
+                  currency: "EUR",
+                }).format(extraCharge / 100)
+              }}
+            </td>
+            <td class="px-6 py-4" v-if="!data.is_priority">---</td>
             <td class="px-6 py-4">
               <button
                 type="button"

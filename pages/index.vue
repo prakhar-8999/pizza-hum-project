@@ -26,6 +26,9 @@ checkLogin();
 const startOrdering = (event) => {
   // name.value = "";
   event.preventDefault();
+  const forms = document.forms;
+  const form = forms.startOrdering;
+  setUserData({tempuser: form.name.value});
   router.push("menu");
 };
 </script>

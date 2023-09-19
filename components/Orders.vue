@@ -4,14 +4,19 @@ const {setLoading} = useLoading();
 const {islogin} = useLoginStatus();
 const {userData} = useUserData();
 const sessionId = useState("sessionid", () => "");
+const {extraCharge} = useExtraCharge();
 const checkoutGenerated = useState("checkoutgenerated", () => false);
 
-const billingData = useState("address", () => ({
-  phone: "",
-  address: "",
-  email: "",
-  priority: false,
-}));
+const billingData = useState("address", () =>
+  sessionStorage.getItem("billing")
+    ? JSON.parse(sessionStorage.getItem("billing"))
+    : {
+        phone: "",
+        address: "",
+        email: "",
+        priority: false,
+      }
+);
 
 const getCurrentPostion = () => {
   if (navigator.geolocation) {
@@ -36,7 +41,7 @@ const showPosition = async (position) => {
 
 const generateSessionID = async (event) => {
   event.preventDefault();
-  // setLoading(true);
+  setLoading(true);
   const billing = billingData.value;
   console.log(JSON.parse(JSON.stringify(billing)));
   const {data, status, error} = await useAPIFetch("checkout/", {
@@ -58,7 +63,7 @@ const generateSessionID = async (event) => {
               price_data: {
                 currency: "INR",
                 product_data: {name: "Express-Delivery"},
-                unit_amount: 5000,
+                unit_amount: extraCharge.value,
               },
               quantity: 1,
             },
@@ -85,12 +90,20 @@ const generateSessionID = async (event) => {
   if (data.value && status.value === "success") {
     sessionId.value = data.value.data.id ?? "";
     localStorage.setItem("paymentSession", data.value.data.id);
-    checkoutGenerated.value = true;
+    sessionStorage.setItem("billing", JSON.stringify(billingData.value));
+    sessionStorage.setItem(
+      "userdata",
+      JSON.stringify({
+        ...JSON.parse(sessionStorage.getItem("userdata")),
+        email: userData.value.email,
+      })
+    );
+    window.open(data.value.data.url, "_self");
   }
   if (status.value === "error") {
     alert(error.value.data.msg);
   }
-  // setLoading(false);
+  setLoading(false);
 };
 </script>
 <template>
@@ -190,73 +203,68 @@ const generateSessionID = async (event) => {
         </label>
       </div>
 
-      <div v-if="!checkoutGenerated">
-        <input type="hidden" name="cart" />
-        <input type="hidden" name="position" />
-        <button
-          type="submit"
-          class="inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-3 md:px-6 md:py-4"
-        >
-          Create Checkout for
-          {{
-            new Intl.NumberFormat("en", {
-              style: "currency",
-              currency: "EUR",
-            }).format(
-              Number(
-                cart
-                  .map((each) => ({
-                    price: each.unit_price,
-                    quantity: each.quantity,
-                  }))
-                  .reduce((a, b) => a + b.price * b.quantity, 0)
-              )
+      <button
+        type="submit"
+        v-if="!billingData.priority"
+        class="w-full inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-3 md:px-6 md:py-4"
+      >
+        Pay Now
+        {{
+          new Intl.NumberFormat("en", {
+            style: "currency",
+            currency: "EUR",
+          }).format(
+            Number(
+              cart
+                .map((each) => ({
+                  price: each.unit_price,
+                  quantity: each.quantity,
+                }))
+                .reduce((a, b) => a + b.price * b.quantity, 0)
             )
-          }}
-        </button>
-      </div>
-    </form>
-    <button
-      v-if="checkoutGenerated"
-      type="button"
-      @click="submitPayment"
-      class="w-full inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-3 md:px-6 md:py-4"
-    >
-      Pay Now
-      {{
-        new Intl.NumberFormat("en", {
-          style: "currency",
-          currency: "EUR",
-        }).format(
-          Number(
-            cart
-              .map((each) => ({
-                price: each.unit_price,
-                quantity: each.quantity,
-              }))
-              .reduce((a, b) => a + b.price * b.quantity, 0)
           )
-        )
-      }}
-    </button>
+        }}
+      </button>
+      <button
+        type="submit"
+        v-if="billingData.priority"
+        class="w-full inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-3 md:px-6 md:py-4"
+      >
+        Pay Now
+        {{
+          new Intl.NumberFormat("en", {
+            style: "currency",
+            currency: "EUR",
+          }).format(
+            Number(
+              cart
+                .map((each) => ({
+                  price: each.unit_price,
+                  quantity: each.quantity,
+                }))
+                .reduce((a, b) => a + b.price * b.quantity, 0)
+            ) + Number(extraCharge / 100)
+          )
+        }}
+      </button>
+    </form>
   </div>
 
-  <div v-if="checkoutGenerated">
+  <!-- <div v-if="checkoutGenerated">
     <stripe-checkout
       ref="checkoutRef"
       :pk="publishableKey"
       :session-id="sessionId"
     />
-    <!-- <button @click="submitPayment">Pay now!</button>  -->
-  </div>
+  </div> -->
 </template>
 
 <script>
-import {StripeCheckout} from "@vue-stripe/vue-stripe";
+// import {StripeCheckout} from "@vue-stripe/vue-stripe";
 export default {
-  components: {
-    StripeCheckout,
-  },
+  // components: {
+  //   StripeCheckout,
+  // },
   data() {
     this.publishableKey =
       "pk_test_51NptrYSDCWX9Q5li0Bali2bRcrrVNEtmsMcSIM4o7yLIoNgr8Tz94qO7VyPnPZjx29Hbk2Vt39ngWXMQwRsgt9wQ00XSziyzxb";

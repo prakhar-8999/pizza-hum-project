@@ -4,7 +4,7 @@ const {setLoading} = useLoading();
 const {userData} = useUserData();
 const {setUserData} = useUserData();
 const {setCart} = useUserCart();
-const {setLogin} = useLoginStatus();
+const {islogin, setLogin} = useLoginStatus();
 const router = useRouter();
 
 const logout = async () => {
@@ -27,6 +27,10 @@ const viewTransactions = () => router.push("transactions");
   >
     <NuxtLink to="/" class="tracking-widest"> Pizza Hum </NuxtLink>
     <Search />
+
+    <div v-if="!islogin && userData.tempuser !== ''">
+      {{ userData.tempuser }}
+    </div>
 
     <div v-if="userData.name !== undefined" class="z-50">
       <Menu as="div" class="relative inline-block text-left">

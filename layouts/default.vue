@@ -7,22 +7,15 @@ const {cart} = useUserCart();
     <Loader />
   </div>
   <Header />
-  <div
-    class="overflow-auto"
-    :class="
-      cart.length !== 0 && showCart
-        ? 'alternate-container'
-        : 'default-container'
-    "
-  >
+  <div class="overflow-auto relative default-container">
     <div
-      class="mx-auto flex flex-col justify-center p-10"
+      class="mx-auto flex flex-col justify-center p-10 mb-10"
       :class="cartWidth ? 'max-w-5xl' : 'max-w-3xl'"
     >
       <slot />
     </div>
   </div>
-  <div v-if="cart.length && showCart">
+  <div v-if="cart.length && showCart" class="absolute bottom-0 w-full z-30">
     <CartView />
   </div>
 </template>
@@ -37,7 +30,7 @@ const {cart} = useUserCart();
   background: url("../assets/images/pizza-opacity.png") transparent center
     center fixed;
   background-size: cover;
-  height: 87.6vh;
+  height: 88vh;
 }
 </style>
 
