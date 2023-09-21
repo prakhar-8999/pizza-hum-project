@@ -54,7 +54,7 @@ const addToCart = async (id) => {
       .map((each) => ({
         ...each,
         item_id: each.id,
-        cart_id: cart.value.length,
+        cart_id: each.id,
         quantity: 1,
         unit_price: each.unitPrice,
       }));
@@ -104,7 +104,6 @@ const incrementCart = async (id) => {
     setCart(array);
     return;
   }
-  console.log(id);
   setLoading(true);
   const index = cart.value.findIndex((each) => each.cart_id === id);
   const quantity = cart.value[index].quantity + 1;
@@ -134,7 +133,6 @@ const decrementCart = async (id) => {
     setCart(array);
     return;
   }
-  console.log(id);
   setLoading(true);
   const index = cart.value.findIndex((each) => each.cart_id === id);
   const quantity = cart.value[index].quantity - 1;
