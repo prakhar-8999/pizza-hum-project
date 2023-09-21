@@ -1,11 +1,13 @@
 <script setup>
 const router = useRouter();
 const {setUserData} = useUserData();
+const {setLoading} = useLoading();
 
 const orderData = useState("orderData", () => ({order_id: ""}));
 
 const getPaymentDetails = async () => {
   if (localStorage.getItem("paymentSession")) {
+    setLoading(true);
     const {data, status} = await useAPIFetch("saveOrder/", {
       method: "POST",
       body: {session: localStorage.getItem("paymentSession")},
@@ -14,6 +16,7 @@ const getPaymentDetails = async () => {
       console.log(JSON.parse(JSON.stringify(data.value)));
       orderData.value = data.value.data;
     }
+    setLoading(false);
     localStorage.clear();
     sessionStorage.clear();
     setUserData({tempuser: ""});
@@ -36,8 +39,8 @@ getPaymentDetails();
     }"
     class="rounded-2xl bg-stone-100 px-10 px-4 py-5 py-6 shadow-lg"
   >
-    <NuxtLink to="/menu" class="text-blue-500 hover:text-blue-700"
-      >&larr; Back to menu</NuxtLink
+    <NuxtLink to="/" class="text-blue-500 hover:text-blue-700"
+      >&larr; Back to Home</NuxtLink
     >
     <div class="flex justify-center">
       <img src="/success.png" alt="success" />

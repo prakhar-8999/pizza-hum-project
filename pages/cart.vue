@@ -125,7 +125,7 @@ const clearCart = async () => {
       },
       transition: {duration: 0.5, ease: 'easeInOut'},
     }"
-    class="rounded-2xl bg-stone-100 p-10 shadow-lg"
+    class="rounded-2xl bg-stone-100 p-5 sm:p-10 shadow-lg"
   >
     <NuxtLink to="/menu" class="text-blue-500 hover:text-blue-700"
       >&larr; Back to menu</NuxtLink
@@ -143,7 +143,7 @@ const clearCart = async () => {
           </p>
 
           <div class="flex items-center justify-between sm:gap-6">
-            <p class="text-sm font-bold">
+            <p class="text-sm font-bold mr-2">
               {{
                 new Intl.NumberFormat("en", {
                   style: "currency",
@@ -181,7 +181,7 @@ const clearCart = async () => {
         </li>
       </ul>
 
-      <div className="mt-6 space-x-2">
+      <div className="hidden sm:block mt-6 flex justify-start space-x-2">
         <NuxtLink to="/order">
           <button
             type="button"
@@ -198,7 +198,25 @@ const clearCart = async () => {
           Clear cart
         </button>
       </div>
+      <div className="block sm:hidden mt-6">
+        <NuxtLink to="/order">
+          <button
+            type="button"
+            class="w-full px-4 py-3 md:px-6 md:py-4 inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed"
+          >
+            Order pizzas
+          </button>
+        </NuxtLink>
+        <button
+          type="button"
+          @click="clearCart"
+          class="w-full mt-3 inline-block text-sm rounded-full border-2 border-stone-300 font-semibold uppercase tracking-wide text-stone-400 transition-colors duration-300 hover:bg-stone-300 hover:text-stone-800 focus:bg-stone-300 focus:text-stone-800 focus:outline-none focus:ring focus:ring-stone-200 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-2.5 md:px-6 md:py-3.5"
+        >
+          Clear cart
+        </button>
+      </div>
     </div>
+
     <div v-else class="flex justify-center mt-10">
       <h1 class="py-4 font-semibold">
         Your cart is still empty. Start adding some pizzas :)

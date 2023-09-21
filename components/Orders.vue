@@ -3,9 +3,7 @@ const {cart} = useUserCart();
 const {setLoading} = useLoading();
 const {islogin} = useLoginStatus();
 const {userData} = useUserData();
-const sessionId = useState("sessionid", () => "");
 const {extraCharge} = useExtraCharge();
-const checkoutGenerated = useState("checkoutgenerated", () => false);
 
 const billingData = useState("address", () =>
   sessionStorage.getItem("billing")
@@ -51,7 +49,7 @@ const generateSessionID = async (event) => {
         ? [
             ...cart.value.map((each) => ({
               price_data: {
-                currency: "INR",
+                currency: "EUR",
                 product_data: {name: each.item_name},
                 unit_amount: Number(parseFloat(each.unit_price) * 100).toFixed(
                   0
@@ -61,7 +59,7 @@ const generateSessionID = async (event) => {
             })),
             {
               price_data: {
-                currency: "INR",
+                currency: "EUR",
                 product_data: {name: "Express-Delivery"},
                 unit_amount: extraCharge.value,
               },
@@ -70,7 +68,7 @@ const generateSessionID = async (event) => {
           ]
         : cart.value.map((each) => ({
             price_data: {
-              currency: "INR",
+              currency: "EUR",
               product_data: {name: each.item_name},
               unit_amount: Number(parseFloat(each.unit_price) * 100).toFixed(0),
             },
@@ -88,7 +86,6 @@ const generateSessionID = async (event) => {
     },
   });
   if (data.value && status.value === "success") {
-    sessionId.value = data.value.data.id ?? "";
     localStorage.setItem("paymentSession", data.value.data.id);
     sessionStorage.setItem("billing", JSON.stringify(billingData.value));
     sessionStorage.setItem(
@@ -115,10 +112,7 @@ const generateSessionID = async (event) => {
     }"
     class="rounded-2xl bg-stone-100 px-10 px-4 py-5 py-6 shadow-lg"
   >
-    <NuxtLink
-      v-if="!checkoutGenerated"
-      to="/menu"
-      class="text-blue-500 hover:text-blue-700"
+    <NuxtLink to="/menu" class="text-blue-500 hover:text-blue-700"
       >&larr; Back to menu</NuxtLink
     >
     <h2 class="my-8 text-xl font-semibold">Ready to order? Let's go!</h2>
@@ -249,31 +243,4 @@ const generateSessionID = async (event) => {
       </button>
     </form>
   </div>
-
-  <!-- <div v-if="checkoutGenerated">
-    <stripe-checkout
-      ref="checkoutRef"
-      :pk="publishableKey"
-      :session-id="sessionId"
-    />
-  </div> -->
 </template>
-
-<script>
-// import {StripeCheckout} from "@vue-stripe/vue-stripe";
-export default {
-  // components: {
-  //   StripeCheckout,
-  // },
-  data() {
-    this.publishableKey =
-      "pk_test_51NptrYSDCWX9Q5li0Bali2bRcrrVNEtmsMcSIM4o7yLIoNgr8Tz94qO7VyPnPZjx29Hbk2Vt39ngWXMQwRsgt9wQ00XSziyzxb";
-  },
-  methods: {
-    submitPayment() {
-      // You will be redirected to Stripe's secure checkout page
-      this.$refs.checkoutRef.redirectToCheckout();
-    },
-  },
-};
-</script>

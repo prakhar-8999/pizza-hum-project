@@ -9,7 +9,7 @@ const {cart} = useUserCart();
   <Header />
   <div class="overflow-auto relative default-container">
     <div
-      class="mx-auto flex flex-col justify-center p-10 mb-10"
+      class="mx-auto flex flex-col justify-center p-5 sm:p-10 mb-10"
       :class="cartWidth ? 'max-w-5xl' : 'max-w-3xl'"
     >
       <slot />

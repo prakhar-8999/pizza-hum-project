@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      baseURL: "https://85.31.238.178:8888/",
+      baseURL: "http://85.31.238.178:8888/",
     },
   },
   modules: ["@nuxtjs/tailwindcss", "@vite-pwa/nuxt", "@vueuse/motion/nuxt"],
