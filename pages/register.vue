@@ -138,18 +138,20 @@ const register = async (event) => {
       <div class="flex justify-center">
         <button
           type="submit"
-          class="w-48 inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-3 md:px-6 md:py-4"
+          class="sm:w-96 w-full w-48 inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-3 md:px-6 md:py-4"
         >
           Register
         </button>
       </div>
-      <div class="flex justify-center mt-8">
-        <NuxtLink
-          to="/login"
-          class="text-yellow-400 underline hover:text-yellow-500"
-          >Already have a account!</NuxtLink
-        >
-      </div>
     </form>
+
+    <SocialLogin />
+    <div class="flex justify-center mt-8">
+      <NuxtLink
+        to="/login"
+        class="text-yellow-700 underline hover:text-yellow-800"
+        >Already have a account!</NuxtLink
+      >
+    </div>
   </div>
 </template>

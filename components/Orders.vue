@@ -4,6 +4,7 @@ const {setLoading} = useLoading();
 const {islogin} = useLoginStatus();
 const {userData} = useUserData();
 const {extraCharge} = useExtraCharge();
+const {constant} = useConstants();
 
 const billingData = useState("address", () =>
   sessionStorage.getItem("billing")
@@ -49,7 +50,7 @@ const generateSessionID = async (event) => {
         ? [
             ...cart.value.map((each) => ({
               price_data: {
-                currency: "EUR",
+                currency: constant.currency,
                 product_data: {name: each.item_name},
                 unit_amount: Number(parseFloat(each.unit_price) * 100).toFixed(
                   0
@@ -59,7 +60,7 @@ const generateSessionID = async (event) => {
             })),
             {
               price_data: {
-                currency: "EUR",
+                currency: constant.currency,
                 product_data: {name: "Express-Delivery"},
                 unit_amount: extraCharge.value,
               },
@@ -68,7 +69,7 @@ const generateSessionID = async (event) => {
           ]
         : cart.value.map((each) => ({
             price_data: {
-              currency: "EUR",
+              currency: constant.currency,
               product_data: {name: each.item_name},
               unit_amount: Number(parseFloat(each.unit_price) * 100).toFixed(0),
             },
