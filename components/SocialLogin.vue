@@ -32,7 +32,7 @@ const socialLogin = (type: SocialLoginType) =>
           >Login with Google</span
         >
         <span v-if="router.currentRoute.value.name === 'register'"
-          >Register with Google</span
+          >Sign up with Google</span
         >
       </div>
     </button>
