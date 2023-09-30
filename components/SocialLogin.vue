@@ -37,13 +37,13 @@ const socialLogin = (type: SocialLoginType) =>
       </div>
     </button>
   </div>
-  <!-- <div class="flex justify-center mt-5">
+  <div class="flex justify-center mt-5">
     <button
       type="button"
       @click="() => socialLogin('facebook')"
       class="sm:w-96 w-full w-48 inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-3 md:px-6 md:py-4"
     >
-      <div class="flex justify-center items-center space-x-3">
+      <div class="flex justify-center items-center">
         <svg
           class="mr-2 -ml-1 w-4 h-4"
           aria-hidden="true"
@@ -67,5 +67,5 @@ const socialLogin = (type: SocialLoginType) =>
         >
       </div>
     </button>
-  </div> -->
+  </div>
 </template>

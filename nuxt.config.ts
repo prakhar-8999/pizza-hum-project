@@ -10,7 +10,7 @@ export default defineNuxtConfig({
       baseURL: "https://pizzaback.thecv.in/",
       // baseURL: "http://85.31.238.178:8888/",
       // baseURL: "https://10.21.85.202:8888/",
-      // baseURL: "https://3c59-125-21-249-98.ngrok-free.app/",
+      // baseURL: "https://e4c5-125-21-249-98.ngrok-free.app/",
     },
   },
   modules: ["@nuxtjs/tailwindcss", "@vite-pwa/nuxt", "@vueuse/motion/nuxt"],
