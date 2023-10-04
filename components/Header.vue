@@ -26,7 +26,7 @@ const viewTransactions = () => router.push("transactions");
     class="flex items-center justify-between border-b border-stone-200 bg-yellow-400 px-4 py-3 uppercase sm:px-6 z-20"
   >
     <NuxtLink to="/" class="tracking-widest"> Pizza Hum </NuxtLink>
-    <Search />
+    <!-- <Search /> -->
 
     <div v-if="!islogin && userData.tempuser !== ''">
       {{ userData.tempuser }}

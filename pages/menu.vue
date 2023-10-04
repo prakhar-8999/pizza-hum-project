@@ -1,11 +1,10 @@
 <script setup>
+const searchValue = useState("searchValue", () => "");
 const {menuData, setMenuData} = useMenuData();
 const {cart} = useUserCart();
 const {setLogin} = useLoginStatus();
 const {userData, setUserData} = useUserData();
 const {islogin} = useLoginStatus();
-console.log(JSON.parse(JSON.stringify(menuData.value)));
-console.log(JSON.parse(JSON.stringify(cart.value)));
 const {setCart} = useUserCart();
 const {setLoading} = useLoading();
 const getMenu = async () => {
@@ -168,7 +167,22 @@ const decrementCart = async (id) => {
     }"
     class="h-full divide-y divide-stone-200 rounded-2xl bg-stone-100 px-10 py-5 shadow-lg"
   >
-    <div v-for="data in menuData" v-bind:key="data.id">
+    <div class="mb-4">
+      <input
+        class="w-full rounded-full border border-stone-200 px-4 py-2 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-yellow-400 px-6 py-3 grow"
+        type="text"
+        v-model="searchValue"
+        placeholder="Search Products ..."
+        name="name"
+      />
+    </div>
+    <div
+      v-for="data in menuData.filter(
+        (each) =>
+          !each.item_name.toLowerCase().indexOf(searchValue.toLowerCase())
+      )"
+      v-bind:key="data.id"
+    >
       <li>
         <div class="flex gap-4 py-2">
           <img
